@@ -1,26 +1,22 @@
-filename = 'rainfall-totals.txt'
-data = []
-totalRainfall = 0
+def main():
+    total = 0.0
+    count = 0
+    data = open("rainfall-totals.txt", "r")
+    for line in data:
+        line = line.rstrip("\n")
+        rain = line.split()
+        rain_month = rain[0]
+        rain_amt = rain[1].split('.')
 
-infile = open(filename, 'r')
-
-for line in infile:
-    monthData = (line.strip()).split(' ')
-    rainfall = monthData[1]
-
-    rainfall = rainfall.replace('.', '')
-
-    if rainfall.isdigit():
-        monthData[1] = float(monthData[1])
-        totalRainfall += monthData[1]
-        data.append(monthData)
-    else:
-        print(f"{monthData[0]} has invalid rainfall data = {monthData[1]}")
-infile.close()
-
-
-avgRainfall = totalRainfall / len(monthData)
+        if rain_amt[0].isdigit() and rain_amt[1].isdigit():
+            amount = float(rain_amt[0] + "." + rain_amt[1])
+            total += float(amount)
+            count += 1
+        else:
+            print(rain_month + " does not have valid data because")
+            print(str(rain[1]) + " is not a number")
+    print("The total rainfall for " + str(count) + " months is " + format(total, ',.2f'))
+    print("The average rainfall was " + format((total/count), ',.2f'))
 
 
-print(f"\nTotal Rainfall: {totalRainfall: .2f}")
-print(f"Average Rainfall: {avgRainfall: .2f}")
+main()
